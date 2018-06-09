@@ -1,5 +1,9 @@
 package it.polito.oop.po;
 
+
+/**
+ * quizzes are in italian
+ */
 public class Quiz {
 	final static public String[] questions = {
 	"Quali di queste affermazioni sono valide per un'interfaccia Java? / Which among the following statements are correct for a Java interface?",
