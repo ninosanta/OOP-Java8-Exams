@@ -1,20 +1,29 @@
 package it.polito.oop.milliways;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 
 public class Restaurant {
-
+	
+	Map<String, Race> races = new HashMap<>();
+//	Map<String, Party> parties = new HashMap<>();
+	
     public Restaurant() {
 	}
 	
-	public Race defineRace(String name) throws MilliwaysException{
-	    return null;
+	public Race defineRace(String name) throws MilliwaysException {
+		if (races.containsKey(name)) {
+			throw new MilliwaysException();
+		}
+		
+		races.put(name, new Race(name));
+		return races.get(name);
 	}
 	
 	public Party createParty() {
-	    return null;
+		return new Party();
 	}
 	
 	public Hall defineHall(int id) throws MilliwaysException{
