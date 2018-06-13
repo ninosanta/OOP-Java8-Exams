@@ -6,13 +6,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import static java.util.stream.Collectors.*;
 
 public class Restaurant {
 	
 	Map<String, Race> races = new HashMap<>();
-//	Map<String, Party> parties = new HashMap<>();
 	Map<Integer, Hall> halls = new HashMap<>();
 	List<Hall> hallsList = new LinkedList<>();
+	
 	
     public Restaurant() {
 	}
@@ -47,6 +48,8 @@ public class Restaurant {
 		if (hall.isSuitable(party) == false)
 			throw new MilliwaysException();
 		
+		hall.addSeatedParty(party);
+		
         return hall;
 	}
 
@@ -54,14 +57,38 @@ public class Restaurant {
         Optional<Hall> hall = halls.values().stream()
         		.filter(h -> h.isSuitable(party))
         		.findFirst();
-        if (hall.isPresent())
+        if (hall.isPresent()) {
+        	hall.get().addSeatedParty(party);
         	return hall.get();
-        else 
+        } else { 
         	throw new MilliwaysException();
+        }
 	}
 
-	public Map<Race, Integer> statComposition() {
-        return null;
+	public Map<Race,Integer> statComposition() {
+			
+		return halls.values().stream().map(Hall::getSeatedParties)  // Stream<List<Party>>
+					.flatMap(List::stream)  // Stream<Party>
+					.map(Party::getCompanions)  // Stream<Map<Race,Integer>>
+					.flatMap(e -> e.entrySet().stream())  // Stream<Race,Integer>
+					.collect(groupingBy(Map.Entry<Race, Integer>::getKey,  // key
+							 summingInt(Map.Entry::getValue) // collettore associato alla chiave
+							));
+					   
+					  
+//		Map<Race, Integer> rm = new HashMap<>();
+//		halls.values().stream().map(Hall::getParties)  // Stream<List<Party>>
+//				  .flatMap(List::stream)  // Stream<Party>
+//				  .map(Party::getCompanions)  // Stream<Map<Race,Integer>>
+//				  .forEach( m -> {
+//						  for (Race r : m.keySet()) {
+//							  if (rm.containsKey(r))
+//								  rm.put(r, rm.get(r)+m.get(r));
+//							  else
+//								  rm.put(r, m.get(r));
+//						}
+//					  });		
+//		return rm;
 	}
 
 	public List<String> statFacility() {
