@@ -31,4 +31,14 @@ public class Race {
         return name;
 	}
 	
+	
+	/**
+	 * Serve nel main per poter fare:
+	 * 	 System.out.println(milliways.statComposition());
+	 */
+	@Override
+	public String toString() {
+		return name;
+	}
+	
 }
