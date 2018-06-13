@@ -7,6 +7,7 @@ public class Hall {
 	
 	private int ID;
 	List<String> facilities = new LinkedList<>();
+	List<Party> seatedParties = new LinkedList<>();
 	
 	public Hall(int ID) {
 		this.ID = ID;
@@ -31,9 +32,16 @@ public class Hall {
 	}
 
 	public boolean isSuitable(Party party) {
-		
 		return party.getRequirements().stream()  // Stream<String>
 				.allMatch(s -> facilities.contains(s));
+	}
+	
+	public void addSeatedParty(Party party) {
+		seatedParties.add(party);
+	}
+	
+	public List<Party> getSeatedParties() {
+		return seatedParties;
 	}
 
 }
