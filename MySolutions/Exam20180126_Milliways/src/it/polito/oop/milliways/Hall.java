@@ -27,6 +27,10 @@ public class Hall {
         return facilities;
 	}
 	
+	public boolean containFacility(String facility) {
+		return facilities.contains(facility);
+	}
+	
 	int getNumFacilities() {
         return facilities.size();
 	}
