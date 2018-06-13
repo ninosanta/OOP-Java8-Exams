@@ -3,7 +3,6 @@ package it.polito.oop.milliways;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.TreeSet;
 
 import static java.util.stream.Collectors.*;
 
@@ -15,9 +14,11 @@ public class Party {
 	
 	
     public void addCompanions(Race race, int num) {
+    	this.num += num;
+    	if (groups.containsKey(race))
+    		num += groups.get(race);
     	groups.put(race, num);
     	description.put(race.getName(), num);
-    	this.num += num;
 	}
 
 	public int getNum() {
