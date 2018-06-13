@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.Optional;
 
 import static java.util.stream.Collectors.*;
+import static java.util.Comparator.*;
+
 
 public class Restaurant {
 	
@@ -92,7 +94,17 @@ public class Restaurant {
 	}
 
 	public List<String> statFacility() {
-        return null;
+		return hallsList.stream()  // Stream<Hall>
+				 .map(h -> h.getFacilities())  // Stream<List<String>>
+				 .flatMap(List::stream)  // Stream<String>
+				 .collect(groupingBy( s -> s, 
+						 			 counting()))  // Map<String,Long> 
+				 .entrySet().stream()  // Stream<Map<String,Long>>
+				 		    .sorted(comparing(Map.Entry<String,Long>::getValue, 
+				 		    				  reverseOrder()).thenComparing(Map.Entry::getKey))
+				 		    .map(Map.Entry<String,Long>::getKey)
+				 		    .collect(toList());
+				 
 	}
 	
 	public Map<Integer,List<Integer>> statHalls() {
