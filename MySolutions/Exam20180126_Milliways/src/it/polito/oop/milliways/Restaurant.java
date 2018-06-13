@@ -9,6 +9,7 @@ public class Restaurant {
 	
 	Map<String, Race> races = new HashMap<>();
 //	Map<String, Party> parties = new HashMap<>();
+	Map<Integer, Hall> halls = new HashMap<>();
 	
     public Restaurant() {
 	}
@@ -26,8 +27,12 @@ public class Restaurant {
 		return new Party();
 	}
 	
-	public Hall defineHall(int id) throws MilliwaysException{
-	    return null;
+	public Hall defineHall(int id) throws MilliwaysException {
+	    if (halls.containsKey(id))
+	    	throw new MilliwaysException();
+	    	
+		halls.put(id, new Hall(id));
+	    return halls.get(id);
 	}
 
 	public List<Hall> getHallList() {
