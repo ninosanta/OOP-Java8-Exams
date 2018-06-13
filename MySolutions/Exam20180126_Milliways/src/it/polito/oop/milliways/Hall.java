@@ -1,26 +1,39 @@
 package it.polito.oop.milliways;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class Hall {
-
+	
+	private int ID;
+	List<String> facilities = new LinkedList<>();
+	
+	public Hall(int ID) {
+		this.ID = ID;
+	}
+	
 	public int getId() {
-		return -1;
+		return ID;
 	}
 
 	public void addFacility(String facility) throws MilliwaysException {
+		if (facilities.contains(facility))
+			throw new MilliwaysException();
+		facilities.add(facility);
 	}
 
 	public List<String> getFacilities() {
-        return null;
+        return facilities;
 	}
 	
-	int getNumFacilities(){
-        return -1;
+	int getNumFacilities() {
+        return facilities.size();
 	}
 
 	public boolean isSuitable(Party party) {
-		return false;
+		
+		return party.getRequirements().stream()  // Stream<String>
+				.allMatch(s -> facilities.contains(s));
 	}
 
 }
