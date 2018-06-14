@@ -3,6 +3,7 @@ package it.polito.oop.milliways;
 import java.util.LinkedList;
 import java.util.List;
 
+import static java.util.stream.Collectors.*;
 public class Hall {
 	
 	private int ID;
@@ -24,7 +25,9 @@ public class Hall {
 	}
 
 	public List<String> getFacilities() {
-        return facilities;
+        return facilities.stream()
+        			     .sorted()
+        			     .collect(toList());
 	}
 	
 	public boolean containFacility(String facility) {
