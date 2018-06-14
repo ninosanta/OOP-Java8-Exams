@@ -99,7 +99,7 @@ public class Restaurant {
 				 .flatMap(List::stream)  // Stream<String>
 				 .collect(groupingBy( s -> s, 
 						 			 counting()))  // Map<String,Long> 
-				 .entrySet().stream()  // Stream<Map<String,Long>>
+				 .entrySet().stream()  // Stream<Entry<String,Long>>
 				 		    .sorted(comparing(Map.Entry<String,Long>::getValue, 
 				 		    				  reverseOrder()).thenComparing(Map.Entry::getKey))
 				 		    .map(Map.Entry<String,Long>::getKey)
@@ -108,7 +108,24 @@ public class Restaurant {
 	}
 	
 	public Map<Integer,List<Integer>> statHalls() {
-        return null;
+		
+		return halls.values().stream() // Stream<Hall>
+					  .collect(groupingBy(h -> h.getFacilities().size(),
+							  			  toList()))  // Map<Integer,<List<Hall>>							  )  // Map<Integer<List<Integer>>
+					  .entrySet().stream()  // Stream<Entry<Integer,List<Hall>>
+					  		     .sorted(comparing(Map.Entry::getKey))
+								 .collect(toMap(Map.Entry<Integer,List<Hall>>::getKey,  // Key
+										 		// Value:
+									  		 	e -> { // e e' di tipo Entry<Integer,List<Hall>>
+									  		 			List<Hall> l = e.getValue();
+									  		 			return l.stream()  // Stream<Hall>
+									  		 					.map(Hall::getId)  // Stream<Integer>
+									  		 					.sorted()
+									  		 					.collect(toList());  // List<Integer
+									  		 	  }
+									  		   )
+								         );
+
 	}
 
 }
