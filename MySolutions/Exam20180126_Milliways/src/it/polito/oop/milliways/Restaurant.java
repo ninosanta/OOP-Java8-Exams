@@ -72,7 +72,7 @@ public class Restaurant {
 		return halls.values().stream().map(Hall::getSeatedParties)  // Stream<List<Party>>
 					.flatMap(List::stream)  // Stream<Party>
 					.map(Party::getCompanions)  // Stream<Map<Race,Integer>>
-					.flatMap(e -> e.entrySet().stream())  // Stream<Race,Integer>
+					.flatMap(e -> e.entrySet().stream())  // Stream<Entry<Race,Integer>>
 					.collect(groupingBy(Map.Entry<Race, Integer>::getKey,  // key
 							 summingInt(Map.Entry::getValue) // collettore associato alla chiave
 							));
