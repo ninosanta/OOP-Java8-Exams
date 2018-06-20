@@ -8,23 +8,35 @@ public class Quiz {
 	};
 	final static public String[][] options = {
 	{
-		"Un'interfaccia puo' contenere attributi / An interface can contain attributes",
-		"Un'interfaccia puo' contenere dei metodi astratti / An interface can contain abstract methods",
-		"Un'interfaccia puo' contenere dei metodi statici / An interface can contain static methods",
-		"Un'interfaccia puo' essere vuota / An interface can be empty",
-		"Un'interfaccia deve contenere almeno un metodo astratto / An interface must contain at least one abstract method"	},
+		/**
+		 * Every method declaration in the body of an interface is implicitly abstract, so its body is always represented by a semicolon, not a block.
+		 *
+		 * Every method declaration in the body of an interface is implicitly public.
+		 */
+//		public interface Pippo {
+//			String foo = "bar";  // no problem
+//			public abstract void hello();  // 'abstract' unnecessary, but legit...idem for 'public'
+//		}
+		"Un'interfaccia puo' contenere attributi / An interface can contain attributes",   // 0
+		"Un'interfaccia puo' contenere dei metodi astratti / An interface can contain abstract methods",  // 1
+		"Un'interfaccia puo' contenere dei metodi statici / An interface can contain static methods",  // 2
+		"Un'interfaccia puo' essere vuota / An interface can be empty",  // 3
+		"Un'interfaccia deve contenere almeno un metodo astratto / An interface must contain at least one abstract method"  // 4
+		},
 	{
-		"Lock-Unlock-Modify",
-		"Lock-Modify-Unlock",
-		"Check-out/Check-in",
-		"Check-out/Commit",
-		"Copy-Modify-Merge"	},
+		"Lock-Unlock-Modify",  // 0
+		"Lock-Modify-Unlock",  // 1
+		"Check-out/Check-in",  // 2
+		"Check-out/Commit",  // 3
+		"Copy-Modify-Merge"	  // 4
+		},
 	{
-		"Nome della classe / Name of the class",
-		"Implementazione / Implementation",
-		"Interfacce / Interfaces",
-		"Metodi / Methods",
-		"Attributi / Attributes"	}
+		"Nome della classe / Name of the class",  // 0
+		"Implementazione / Implementation",  // 1
+		"Interfacce / Interfaces",  // 2
+		"Metodi / Methods",  // 3
+		"Attributi / Attributes"  //4
+		}
 	};
 	
 	/**
@@ -34,9 +46,9 @@ public class Quiz {
 		// TODO: answer the question
 		
 		switch(question){
-			case 0: return null; // replace with your answers
-			case 1: return null; // replace with your answers
-			case 2: return null; // replace with your answers
+			case 0: return new int[] {0,1,2,3}; // replace with your answers
+			case 1: return new int[] {4}; // replace with your answers
+			case 2: return new int[] {4}; // replace with your answers
 		}
 		return null; // means: "No answer"
 	}
@@ -58,4 +70,5 @@ public class Quiz {
 			}
 		}
 	}
+	
 }
