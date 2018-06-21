@@ -94,10 +94,11 @@ public class IssueManager {
      */
     public void defineSubComponent(String name, String parentPath) throws TicketException {
         Component parent = components.get(parentPath);
-        if (parent == null)
+        if (parent == null || components.containsKey(parentPath+"/"+name))
         	throw new TicketException();
         
         Component c = new Component(name);
+        
         components.put(parentPath + "/"  + name, c);
         parent.addChild(c);        
     }
@@ -125,7 +126,7 @@ public class IssueManager {
     	
     	// components[0] = "" 
     	// len-1 -> component, len-2 -> parent
-    	return (len == 2) ? null : components[len-2];
+    	return (len == 2) ? null : "/"+components[len-2];
     	
     }
 
@@ -144,7 +145,9 @@ public class IssueManager {
      */
     public int openTicket(String username, String componentPath, 
     		String description, Ticket.Severity severity) throws TicketException {
-        if (!users.containsKey(username))
+        if (!users.containsKey(username) ||
+        	!components.containsKey(componentPath) ||
+        	!users.get(username).getClasses().contains(UserClass.Reporter))
         	throw new TicketException();
         tickets.put(id, 
         		    new Ticket(id, username, componentPath, description, severity));
@@ -167,7 +170,8 @@ public class IssueManager {
      * @return list of ticket objects
      */
     public List<Ticket> getAllTickets() {
-        return tickets.values().stream().sorted().collect(toList());
+        return tickets.values().stream()
+        		.sorted(comparing(Ticket::getSeverity)).collect(toList());
     }
     
     /**
@@ -180,7 +184,8 @@ public class IssueManager {
      */
     public void assingTicket(int ticketId, String username) throws TicketException {
         if (ticketId < 1 || ticketId >= id || 
-            !users.containsKey(username) || 
+        	tickets.get(ticketId).getState() == State.Closed ||
+        	!users.containsKey(username) || 
             !users.get(username).getClasses().contains(UserClass.Maintainer))
         	throw new TicketException();
         tickets.get(ticketId).setState(State.Assigned);
@@ -244,7 +249,8 @@ public class IssueManager {
     			.entrySet().stream()
     			.sorted(comparing(Map.Entry<String, Long>::getValue, reverseOrder())
     					.thenComparing(Map.Entry::getKey))
-    			.map(Map.Entry::getKey)
+//    			.map(Map.Entry<String,Long>::getKey + ":" + Map.Entry<String,Long>::getValue)
+    			.map(e -> e.getKey() + ":" + e.getValue())
     			.collect(toList());
     }
 
